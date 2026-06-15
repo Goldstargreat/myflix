@@ -14,7 +14,6 @@
         <h1 class="detail-title" th:text="${movie.title}"></h1>
 
         <div class="detail-meta">
-            <!-- TMDB 평점 -->
             <span class="rating-large">⭐ TMDB <span th:text="${movie.rating}"></span></span>
             <span class="year" th:text="${movie.releaseYear} + '년'"></span>
         </div>
@@ -39,45 +38,67 @@
 <div class="section review-section" sec:authorize="isAuthenticated()">
     <div class="review-container">
 
-        <!-- 내 리뷰 작성 / 수정 폼 -->
+        <!-- 새 리뷰 작성 폼 -->
         <div class="my-review-form">
-            <h3 th:text="${myReview != null} ? '내 리뷰 수정' : '리뷰 작성'">리뷰 작성</h3>
+            <h3>리뷰 작성</h3>
             <form th:action="@{/review/save/{id}(id=${movie.id})}" method="post">
                 <div class="rating-input">
                     <label>내 별점</label>
                     <input type="number" name="myRating" step="0.5" min="0.5" max="10"
-                           th:value="${myReview != null} ? ${myReview.myRating} : '7.0'"
-                           required style="width:80px;">
+                           value="7.0" required style="width:80px;">
                     <span>/ 10</span>
                 </div>
                 <div class="comment-input">
                     <label>한줄평 <span class="char-limit">(150자 이내)</span></label>
-                    <textarea name="comment" maxlength="150" rows="3" placeholder="이 작품에 대한 한줄평을 남겨보세요."
-                              th:text="${myReview != null} ? ${myReview.comment} : ''"></textarea>
+                    <textarea name="comment" maxlength="150" rows="3"
+                              placeholder="이 작품에 대한 한줄평을 남겨보세요."></textarea>
                     <div class="char-counter"><span id="charCount">0</span> / 150</div>
                 </div>
-                <button type="submit" class="btn-primary"
-                        th:text="${myReview != null} ? '수정하기' : '작성하기'">작성하기</button>
-            </form>
-
-            <!-- 삭제 버튼 (리뷰가 있는 경우만, 수정 form 밖에 위치) -->
-            <form th:if="${myReview != null}"
-                  th:action="@{/review/delete/{id}(id=${myReview.id})}" method="post" style="display:inline;">
-                <input type="hidden" name="movieId" th:value="${movie.id}">
-                <button type="submit" class="btn-delete"
-                        onclick="return confirm('리뷰를 삭제하시겠습니까?')">삭제</button>
+                <button type="submit" class="btn-primary">작성하기</button>
             </form>
         </div>
 
-        <!-- 다른 사람들의 리뷰 -->
+        <!-- 전체 리뷰 목록 -->
         <div class="all-reviews" th:if="${!#lists.isEmpty(reviews)}">
             <h3>전체 리뷰 <span class="review-count" th:text="'(' + ${#lists.size(reviews)} + ')'"></span></h3>
             <div th:each="review : ${reviews}" class="review-card">
                 <div class="review-header">
                     <span class="review-username" th:text="${review.username}"></span>
                     <span class="review-rating">⭐ <span th:text="${review.myRating}"></span></span>
+                    <!-- 내 리뷰에만 수정/삭제 버튼 -->
+                    <span th:if="${#authentication.name == review.username}" style="margin-left:auto; display:flex; gap:0.5rem;">
+                        <!-- 수정 버튼 클릭 시 수정 폼 토글 -->
+                        <button class="btn-secondary" style="font-size:0.8rem; padding:4px 10px;"
+                                th:onclick="'toggleEdit(' + ${review.id} + ')'">수정</button>
+                        <!-- 삭제 버튼 -->
+                        <form th:action="@{/review/delete/{id}(id=${review.id})}" method="post" style="display:inline;">
+                            <input type="hidden" name="movieId" th:value="${movie.id}">
+                            <button type="submit" class="btn-delete"
+                                    onclick="return confirm('리뷰를 삭제하시겠습니까?')">삭제</button>
+                        </form>
+                    </span>
                 </div>
                 <p class="review-comment" th:text="${review.comment}"></p>
+
+                <!-- 인라인 수정 폼 (기본 숨김) -->
+                <div th:if="${#authentication.name == review.username}"
+                     th:id="'edit-form-' + ${review.id}" style="display:none; margin-top:0.5rem;">
+                    <form th:action="@{/review/update/{id}(id=${review.id})}" method="post">
+                        <input type="hidden" name="movieId" th:value="${movie.id}">
+                        <div style="display:flex; gap:0.5rem; align-items:center; margin-bottom:0.5rem;">
+                            <label>별점</label>
+                            <input type="number" name="myRating" step="0.5" min="0.5" max="10"
+                                   th:value="${review.myRating}" required style="width:70px;">
+                        </div>
+                        <textarea name="comment" maxlength="150" rows="2"
+                                  th:text="${review.comment}" style="width:100%;"></textarea>
+                        <div style="margin-top:0.5rem; display:flex; gap:0.5rem;">
+                            <button type="submit" class="btn-primary" style="padding:5px 12px; font-size:0.85rem;">저장</button>
+                            <button type="button" class="btn-secondary" style="padding:5px 12px; font-size:0.85rem;"
+                                    th:onclick="'toggleEdit(' + ${review.id} + ')'">취소</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="all-reviews" th:if="${#lists.isEmpty(reviews)}">
@@ -96,7 +117,7 @@
 </div>
 
 <footer class="footer">
-    <p>© 2026 MyFlix. AI소프트웨어학과 박경구</p>
+    <p>© 2026 MyFlix. 인공지능소프트웨어</p>
 </footer>
 
 <script>
@@ -108,6 +129,12 @@
         textarea.addEventListener('input', () => {
             counter.textContent = textarea.value.length;
         });
+    }
+
+    // 수정 폼 토글
+    function toggleEdit(reviewId) {
+        const form = document.getElementById('edit-form-' + reviewId);
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
     }
 </script>
 

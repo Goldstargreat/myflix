@@ -24,19 +24,17 @@ public class ReviewService {
         return reviewRepository.findByUsername(username);
     }
 
-    // 유저가 특정 영화에 쓴 리뷰
+    // 유저가 특정 영화에 쓴 리뷰 (첫 번째 것만, 수정 폼용)
     public Optional<Review> getMyReview(Long movieId, String username) {
         return reviewRepository.findByMovieIdAndUsername(movieId, username);
     }
 
-    // 리뷰 저장 (작성 or 수정) - comment 150자 제한
+    // 새 리뷰 작성 (1인 다중 리뷰 허용)
     public Review saveReview(Long movieId, String username, double myRating, String comment) {
         if (comment != null && comment.length() > 150) {
             comment = comment.substring(0, 150);
         }
-
-        Optional<Review> existing = reviewRepository.findByMovieIdAndUsername(movieId, username);
-        Review review = existing.orElse(new Review());
+        Review review = new Review();
         review.setMovieId(movieId);
         review.setUsername(username);
         review.setMyRating(myRating);
@@ -44,9 +42,24 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
+    // 특정 리뷰 수정
+    public Review updateReview(Long reviewId, String username, double myRating, String comment) {
+        if (comment != null && comment.length() > 150) {
+            comment = comment.substring(0, 150);
+        }
+        List<Review> myReviews = reviewRepository.findByUsername(username);
+        for (Review r : myReviews) {
+            if (r.getId().equals(reviewId)) {
+                r.setMyRating(myRating);
+                r.setComment(comment);
+                return reviewRepository.save(r);
+            }
+        }
+        return null;
+    }
+
     // 리뷰 삭제 (본인 것만)
     public boolean deleteReview(Long reviewId, String username) {
-        // 본인 리뷰인지 확인
         List<Review> myReviews = reviewRepository.findByUsername(username);
         for (Review r : myReviews) {
             if (r.getId().equals(reviewId)) {
@@ -54,6 +67,6 @@ public class ReviewService {
                 return true;
             }
         }
-        return false; // 권한 없음
+        return false;
     }
 }
