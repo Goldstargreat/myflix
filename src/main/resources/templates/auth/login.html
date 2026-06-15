@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('로그인')}"></head>
+<body class="auth-body">
+
+<div class="auth-container">
+    <a th:href="@{/}" class="logo auth-logo">MyFlix</a>
+    <div class="auth-box">
+        <h2>로그인</h2>
+        <div th:if="${errorMsg}" class="alert alert-error" th:text="${errorMsg}"></div>
+        <div th:if="${param.registered}" class="alert alert-success">회원가입 완료! 로그인해주세요.</div>
+        <form th:action="@{/auth/login}" method="post">
+            <div class="form-group">
+                <label>아이디</label>
+                <input type="text" name="username" placeholder="아이디 입력" required>
+            </div>
+            <div class="form-group">
+                <label>비밀번호</label>
+                <input type="password" name="password" placeholder="비밀번호 입력" required>
+            </div>
+            <button type="submit" class="btn-full">로그인</button>
+        </form>
+        <p class="auth-link">계정이 없으신가요? <a th:href="@{/auth/register}">회원가입</a></p>
+        <div class="test-accounts">
+            <p>테스트 계정</p>
+            <span>관리자: admin / admin123</span>
+            <span>일반: user / user123</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
