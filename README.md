@@ -34,3 +34,46 @@ Spring Boot + Spring Security + Thymeleaf를 활용하여 구현했다.
 ---
 
 ## 📁 프로젝트 구조
+src/main/java/kr/ac/kopo/gnuyog/myflix/
+
+├── MyflixApplication.java
+
+├── config/
+
+│   └── SecurityConfig.java
+
+├── controller/
+
+│   ├── HomeController.java
+
+│   ├── MovieController.java
+
+│   ├── AuthController.java
+
+│   └── AdminController.java
+
+├── model/
+
+│   ├── Movie.java
+
+│   └── User.java
+
+├── repository/
+
+│   ├── MovieRepository.java
+
+│   ├── MovieRepositoryImpl.java
+
+│   ├── UserRepository.java
+
+│   └── UserRepositoryImpl.java
+
+├── security/
+
+│   └── CustomUserDetailsService.java
+
+└── service/
+
+├── MovieService.java
+
+└── UserService.java
