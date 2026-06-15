@@ -24,7 +24,11 @@
             <td><span class="genre-badge" th:text="${movie.genre}"></span></td>
             <td th:text="${movie.releaseYear}"></td>
             <td>★ <span th:text="${movie.rating}"></span></td>
-            <td>
+            <td style="display:flex; gap:0.5rem;">
+                <!-- 수정 버튼 -->
+                <a th:href="@{/admin/movie/edit/{id}(id=${movie.id})}" class="btn-primary"
+                   style="padding:6px 12px; font-size:0.85rem;">수정</a>
+                <!-- 삭제 버튼 -->
                 <form th:action="@{/admin/movie/delete/{id}(id=${movie.id})}" method="post"
                       onsubmit="return confirm('삭제하시겠습니까?')">
                     <button type="submit" class="btn-delete">삭제</button>
