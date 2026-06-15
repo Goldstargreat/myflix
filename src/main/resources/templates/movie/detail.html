@@ -1,27 +1,116 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/layout :: head(${movie.title})}"></head>
 <body>
 
 <nav th:replace="~{fragments/layout :: navbar}"></nav>
 
+<!-- 히어로 섹션 -->
 <div class="detail-hero"
      th:style="'background-image: linear-gradient(to right, rgba(0,0,0,0.95) 40%, rgba(0,0,0,0.3)), url(' + ${movie.thumbnailUrl} + ')'">
     <div class="detail-content">
         <p class="hero-eyebrow" th:text="${movie.genre}"></p>
         <h1 class="detail-title" th:text="${movie.title}"></h1>
+
         <div class="detail-meta">
-            <span class="rating-large">★ <span th:text="${movie.rating}"></span></span>
+            <!-- TMDB 평점 -->
+            <span class="rating-large">⭐ TMDB <span th:text="${movie.rating}"></span></span>
             <span class="year" th:text="${movie.releaseYear} + '년'"></span>
         </div>
+
         <p class="detail-desc" th:text="${movie.description}"></p>
-        <a th:href="@{/movies}" class="btn-secondary">← 목록으로</a>
+
+        <div class="detail-actions">
+            <a th:href="@{/movies}" class="btn-secondary">← 목록으로</a>
+
+            <!-- 찜하기 버튼 (로그인한 경우만) -->
+            <form th:if="${loggedIn}" th:action="@{/wish/toggle/{id}(id=${movie.id})}" method="post" style="display:inline;">
+                <button type="submit" class="btn-wish"
+                        th:classappend="${isWished} ? ' wished'"
+                        th:text="${isWished} ? '❤ 찜 해제' : '🤍 찜하기'">
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 리뷰 섹션 -->
+<div class="section review-section" sec:authorize="isAuthenticated()">
+    <div class="review-container">
+
+        <!-- 내 리뷰 작성 / 수정 폼 -->
+        <div class="my-review-form">
+            <h3 th:text="${myReview != null} ? '내 리뷰 수정' : '리뷰 작성'">리뷰 작성</h3>
+            <form th:action="@{/review/save/{id}(id=${movie.id})}" method="post">
+                <div class="rating-input">
+                    <label>내 별점</label>
+                    <input type="number" name="myRating" step="0.5" min="0.5" max="10"
+                           th:value="${myReview != null} ? ${myReview.myRating} : '7.0'"
+                           required style="width:80px;">
+                    <span>/ 10</span>
+                </div>
+                <div class="comment-input">
+                    <label>한줄평 <span class="char-limit">(150자 이내)</span></label>
+                    <textarea name="comment" maxlength="150" rows="3" placeholder="이 작품에 대한 한줄평을 남겨보세요."
+                              th:text="${myReview != null} ? ${myReview.comment} : ''"></textarea>
+                    <div class="char-counter"><span id="charCount">0</span> / 150</div>
+                </div>
+                <button type="submit" class="btn-primary"
+                        th:text="${myReview != null} ? '수정하기' : '작성하기'">작성하기</button>
+
+                <!-- 삭제 버튼 (리뷰가 있는 경우만) -->
+                <span th:if="${myReview != null}">
+                    <form th:action="@{/review/delete/{id}(id=${myReview.id})}" method="post" style="display:inline;">
+                        <input type="hidden" name="movieId" th:value="${movie.id}">
+                        <button type="submit" class="btn-delete"
+                                onclick="return confirm('리뷰를 삭제하시겠습니까?')">삭제</button>
+                    </form>
+                </span>
+            </form>
+        </div>
+
+        <!-- 다른 사람들의 리뷰 -->
+        <div class="all-reviews" th:if="${!#lists.isEmpty(reviews)}">
+            <h3>전체 리뷰 <span class="review-count" th:text="'(' + ${#lists.size(reviews)} + ')'"></span></h3>
+            <div th:each="review : ${reviews}" class="review-card">
+                <div class="review-header">
+                    <span class="review-username" th:text="${review.username}"></span>
+                    <span class="review-rating">⭐ <span th:text="${review.myRating}"></span></span>
+                </div>
+                <p class="review-comment" th:text="${review.comment}"></p>
+            </div>
+        </div>
+        <div class="all-reviews" th:if="${#lists.isEmpty(reviews)}">
+            <p class="no-review">아직 리뷰가 없습니다. 첫 번째 리뷰를 남겨보세요!</p>
+        </div>
+
+    </div>
+</div>
+
+<!-- 비로그인 안내 -->
+<div class="section" sec:authorize="!isAuthenticated()">
+    <div class="login-prompt">
+        <p>리뷰 작성 및 찜하기는 로그인 후 이용할 수 있습니다.</p>
+        <a th:href="@{/auth/login}" class="btn-primary">로그인하러 가기</a>
     </div>
 </div>
 
 <footer class="footer">
     <p>© 2026 MyFlix. AI소프트웨어학과 박경구</p>
 </footer>
+
+<script>
+    // 글자수 카운터
+    const textarea = document.querySelector('textarea[name="comment"]');
+    const counter = document.getElementById('charCount');
+    if (textarea && counter) {
+        counter.textContent = textarea.value.length;
+        textarea.addEventListener('input', () => {
+            counter.textContent = textarea.value.length;
+        });
+    }
+</script>
 
 </body>
 </html>
