@@ -20,11 +20,21 @@ public class UserRepositoryImpl implements UserRepository
         users.add(new User(1L, "admin", encoder.encode("admin123"), "ROLE_ADMIN"));
         users.add(new User(2L, "user", encoder.encode("user123"), "ROLE_USER"));
     }
+
     @Override
     public Optional<User> findByUsername(String username)
     {
-        return users.stream().filter(u -> u.getUsername().equals(username)).findFirst();
+        for (int i = 0; i < users.size(); i++)
+        {
+            User u = users.get(i);
+            if (u.getUsername().equals(username))
+            {
+                return Optional.of(u);
+            }
+        }
+        return Optional.empty();
     }
+
     @Override
     public User save(User user)
     {
@@ -39,6 +49,14 @@ public class UserRepositoryImpl implements UserRepository
     @Override
     public boolean existsByUsername(String username)
     {
-        return users.stream().anyMatch(u -> u.getUsername().equals(username));
+        for (int i = 0; i < users.size(); i++)
+        {
+            User u = users.get(i);
+            if (u.getUsername().equals(username))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
