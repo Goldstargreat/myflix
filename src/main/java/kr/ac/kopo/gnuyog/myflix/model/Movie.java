@@ -6,15 +6,20 @@ public class Movie
     private String title;
     private String genre;
     private String description;
-    private String thumbnailUrl;
-    private int releaseYear;
-    private double rating;
+    private String thumbnailUrl; // 영화 포스터 이미지 주소(URL)
+    private int releaseYear; // 출시 연도
+    private double rating; // 평점
 
-    public Movie(){}
+    public Movie()
+    {
+        // 기본 생성자 비어있는 Movie 객체를 만들 수 있게 해주는 생성자
+    }
 
+    // 전체 데이터를 한 번에 넣는 생성자
     public Movie(Long id, String title, String genre, String description,
-                 String thumbnailUrl, int releaseYear, double rating){
-        this.id = id;
+                 String thumbnailUrl, int releaseYear, double rating)
+    {
+        this.id = id;  // 좌측은 객체 안의 변수, 우측은 입력값
         this.title = title;
         this.genre = genre;
         this.description = description;
@@ -22,6 +27,7 @@ public class Movie
         this.releaseYear = releaseYear;
         this.rating = rating;
     }
+    // Getter (값 꺼내기)
     public Long getId()
     {
         return id;
@@ -32,8 +38,10 @@ public class Movie
     }
     public String getTitle()
     {
-        return title;
+        return title; // 제목을 가져와서 title 값을 밖으로 돌려줌
     }
+
+    // Setter (값 바꾸기)
     public void setTitle(String title)
     {
         this.title = title;
