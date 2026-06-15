@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('목록')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1 class="page-title" th:text="${selectedGenre != null ? selectedGenre : '전체'}">전체</h1>
+    </div>
+    <div class="genre-filter">
+        <a th:href="@{/movies}" th:classappend="${selectedGenre == null} ? ' active'" class="genre-btn">전체</a>
+        <a th:href="@{/movies(genre='영화')}" th:classappend="${selectedGenre == '영화'} ? ' active'" class="genre-btn">영화</a>
+        <a th:href="@{/movies(genre='드라마')}" th:classappend="${selectedGenre == '드라마'} ? ' active'" class="genre-btn">드라마</a>
+        <a th:href="@{/movies(genre='애니메이션')}" th:classappend="${selectedGenre == '애니메이션'} ? ' active'" class="genre-btn">애니메이션</a>
+        <a th:href="@{/movies(genre='다큐멘터리')}" th:classappend="${selectedGenre == '다큐멘터리'} ? ' active'" class="genre-btn">다큐멘터리</a>
+        <a th:href="@{/movies(genre='뮤지컬')}" th:classappend="${selectedGenre == '뮤지컬'} ? ' active'" class="genre-btn">뮤지컬</a>
+    </div>
+    <div class="movie-grid">
+        <a th:each="movie : ${movies}" th:href="@{/movies/{id}(id=${movie.id})}" class="movie-card">
+            <div class="movie-thumb">
+                <img th:src="${movie.thumbnailUrl}" th:alt="${movie.title}"
+                     onerror="this.src='https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&h=600&fit=crop'">
+                <div class="movie-overlay">
+                    <span class="genre-badge" th:text="${movie.genre}"></span>
+                    <span class="rating">★ <span th:text="${movie.rating}"></span></span>
+                </div>
+            </div>
+            <div class="movie-info">
+                <p class="movie-title" th:text="${movie.title}"></p>
+                <p class="movie-year" th:text="${movie.releaseYear}"></p>
+            </div>
+        </a>
+    </div>
+    <div th:if="${#lists.isEmpty(movies)}" class="empty-state">
+        <p>해당 카테고리의 콘텐츠가 없습니다.</p>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>© 2026 MyFlix. AI소프트웨어학과 박경구</p>
+</footer>
+
+</body>
+</html>
