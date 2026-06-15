@@ -31,9 +31,9 @@ Spring Boot + Spring Security + Thymeleaf를 활용하여 구현했다.
 | IDE | IntelliJ IDEA |
 | 빌드 도구 | Gradle |
 
----
-
 ## 📁 프로젝트 구조
+
+```
 myflix/
 ├── build.gradle
 ├── settings.gradle
@@ -81,8 +81,7 @@ myflix/
                 └── admin/
                     ├── index.html
                     └── movie-form.html
-
----
+```
 
 ## 🚀 실행 방법
 
