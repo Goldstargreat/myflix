@@ -14,7 +14,7 @@
 
 ## 📌 프로젝트 개요
 
-Netflix UI/UX에서 착안하여 제작한 영화 정보 웹 서비스이다.
+Netflix UI/UX에서 착안하여 제작한 영상컨텐츠 웹 서비스이다.
 Spring Boot + Spring Security + Thymeleaf를 활용하여 구현했다.
 
 ---
