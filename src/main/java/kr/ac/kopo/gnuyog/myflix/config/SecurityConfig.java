@@ -12,18 +12,17 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
-
+public class SecurityConfig
+{
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder; // 이제 다른 클래스에서 오므로 순환 없음
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
+    {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/movies", "/movies/**", "/auth/**", "/css/**", "/js/**").permitAll()
@@ -47,7 +46,9 @@ public class SecurityConfig {
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception
+    {
+        auth.userDetailsService(customUserDetailsService)
+                .passwordEncoder(passwordEncoder);
     }
 }
