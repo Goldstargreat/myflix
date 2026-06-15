@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('콘텐츠 추가')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="page-container" style="max-width:600px;">
+    <div class="page-header">
+        <h1 class="page-title">콘텐츠 추가</h1>
+    </div>
+    <div style="background:#1a1a1a; padding:2rem; border-radius:8px;">
+        <form th:action="@{/admin/movie/add}" method="post">
+            <div class="form-group">
+                <label>제목</label>
+                <input type="text" name="title" placeholder="제목 입력" required>
+            </div>
+            <div class="form-group">
+                <label>카테고리</label>
+                <select name="genre">
+                    <option value="영화">영화</option>
+                    <option value="드라마">드라마</option>
+                    <option value="애니메이션">애니메이션</option>
+                    <option value="다큐멘터리">다큐멘터리</option>
+                    <option value="뮤지컬">뮤지컬</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>설명</label>
+                <textarea name="description" rows="3" placeholder="설명 입력" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>썸네일 URL</label>
+                <input type="text" name="thumbnailUrl" placeholder="https://...">
+            </div>
+            <div class="form-group">
+                <label>개봉년도</label>
+                <input type="number" name="releaseYear" value="2024" min="1900" max="2030" required>
+            </div>
+            <div class="form-group">
+                <label>평점 (0.0 ~ 10.0)</label>
+                <input type="number" name="rating" step="0.1" min="0" max="10" value="7.0" required>
+            </div>
+            <div style="display:flex; gap:1rem;">
+                <button type="submit" class="btn-full">추가하기</button>
+                <a th:href="@{/admin}" class="btn-full"
+                   style="text-align:center; text-decoration:none; background:#333; padding:13px; border-radius:4px;">취소</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>© 2026 MyFlix. AI소프트웨어학과 박경구</p>
+</footer>
+
+</body>
+</html>
