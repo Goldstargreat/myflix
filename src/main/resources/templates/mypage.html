@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('마이페이지')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="page-container">
+
+    <!-- 프로필 헤더 -->
+    <div class="mypage-header">
+        <div class="avatar">👤</div>
+        <div>
+            <h1 class="mypage-username" th:text="${username}"></h1>
+            <p class="mypage-stats">
+                찜 <strong th:text="${#lists.size(wishedMovies)}"></strong>편 ·
+                리뷰 <strong th:text="${#lists.size(myReviews)}"></strong>편
+            </p>
+        </div>
+    </div>
+
+    <!-- 찜 목록 -->
+    <div class="mypage-section">
+        <h2 class="section-title">❤ 찜한 콘텐츠</h2>
+        <div class="movie-grid" th:if="${!#lists.isEmpty(wishedMovies)}">
+            <a th:each="movie : ${wishedMovies}"
+               th:href="@{/movies/{id}(id=${movie.id})}" class="movie-card">
+                <div class="movie-thumb">
+                    <img th:src="${movie.thumbnailUrl}" th:alt="${movie.title}"
+                         onerror="this.src='https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&h=600&fit=crop'">
+                    <div class="movie-overlay">
+                        <span class="genre-badge" th:text="${movie.genre}"></span>
+                        <span class="rating">★ <span th:text="${movie.rating}"></span></span>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <p class="movie-title" th:text="${movie.title}"></p>
+                    <p class="movie-year" th:text="${movie.releaseYear}"></p>
+                </div>
+            </a>
+        </div>
+        <div th:if="${#lists.isEmpty(wishedMovies)}" class="empty-state">
+            <p>찜한 콘텐츠가 없습니다. 마음에 드는 영화를 찜해보세요!</p>
+        </div>
+    </div>
+
+    <!-- 내가 쓴 리뷰 -->
+    <div class="mypage-section">
+        <h2 class="section-title">📝 내가 쓴 리뷰</h2>
+        <div th:if="${!#lists.isEmpty(myReviews)}">
+            <div th:each="review : ${myReviews}" class="myreview-card">
+                <div class="myreview-header">
+                    <!-- 영화 제목 찾기 -->
+                    <a th:each="m : ${allMovies}"
+                       th:if="${m.id == review.movieId}"
+                       th:href="@{/movies/{id}(id=${review.movieId})}"
+                       class="myreview-title"
+                       th:text="${m.title}">영화 제목</a>
+                    <span class="review-rating">⭐ <span th:text="${review.myRating}"></span> / 10</span>
+                </div>
+                <p class="review-comment" th:text="${review.comment}"></p>
+                <div class="myreview-actions">
+                    <a th:href="@{/movies/{id}(id=${review.movieId})}" class="btn-secondary"
+                       style="font-size:0.8rem; padding:5px 12px;">수정하러 가기</a>
+                    <form th:action="@{/review/delete/{id}(id=${review.id})}" method="post" style="display:inline;">
+                        <input type="hidden" name="movieId" th:value="${review.movieId}">
+                        <button type="submit" class="btn-delete"
+                                onclick="return confirm('리뷰를 삭제하시겠습니까?')">삭제</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div th:if="${#lists.isEmpty(myReviews)}" class="empty-state">
+            <p>작성한 리뷰가 없습니다. 첫 리뷰를 남겨보세요!</p>
+        </div>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <p>© 2026 MyFlix. AI소프트웨어학과 박경구</p>
+</footer>
+
+</body>
+</html>
