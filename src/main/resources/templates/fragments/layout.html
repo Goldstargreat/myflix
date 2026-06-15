@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} + ' - MyFlix'">MyFlix</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<nav th:fragment="navbar">
+    <div class="navbar">
+        <div class="navbar-left">
+            <a th:href="@{/}" class="logo">MyFlix</a>
+            <a th:href="@{/}" class="nav-link">홈</a>
+            <a th:href="@{/movies(genre='영화')}" class="nav-link">영화</a>
+            <a th:href="@{/movies(genre='드라마')}" class="nav-link">드라마</a>
+            <a th:href="@{/movies(genre='애니메이션')}" class="nav-link">애니메이션</a>
+            <a th:href="@{/movies(genre='다큐멘터리')}" class="nav-link">다큐멘터리</a>
+            <a th:href="@{/movies(genre='뮤지컬')}" class="nav-link">뮤지컬</a>
+            <a th:href="@{/admin}" class="nav-link" sec:authorize="hasRole('ADMIN')">관리자</a>
+        </div>
+        <div class="navbar-right">
+            <span sec:authorize="isAuthenticated()" class="username" sec:authentication="name"></span>
+            <a th:href="@{/auth/logout}" class="btn-nav" sec:authorize="isAuthenticated()">로그아웃</a>
+            <a th:href="@{/auth/login}" class="btn-nav" sec:authorize="!isAuthenticated()">로그인</a>
+            <a th:href="@{/auth/register}" class="btn-nav btn-register" sec:authorize="!isAuthenticated()">회원가입</a>
+        </div>
+    </div>
+</nav>
+</html>
