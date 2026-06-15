@@ -124,7 +124,8 @@
     // 글자수 카운터
     const textarea = document.querySelector('textarea[name="comment"]');
     const counter = document.getElementById('charCount');
-    if (textarea && counter) {
+    if (textarea && counter)
+    {
         counter.textContent = textarea.value.length;
         textarea.addEventListener('input', () => {
             counter.textContent = textarea.value.length;
@@ -132,7 +133,8 @@
     }
 
     // 수정 폼 토글
-    function toggleEdit(reviewId) {
+    function toggleEdit(reviewId)
+    {
         const form = document.getElementById('edit-form-' + reviewId);
         form.style.display = form.style.display === 'none' ? 'block' : 'none';
     }
