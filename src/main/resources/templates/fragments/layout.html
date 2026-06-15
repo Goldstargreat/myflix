@@ -22,7 +22,10 @@
             <a th:href="@{/admin}" class="nav-link" sec:authorize="hasRole('ADMIN')">관리자</a>
         </div>
         <div class="navbar-right">
-            <span sec:authorize="isAuthenticated()" class="username" sec:authentication="name"></span>
+            <!-- 로그인 시: 유저명 클릭 → 마이페이지 -->
+            <a th:href="@{/mypage}" class="username nav-link"
+               sec:authorize="isAuthenticated()"
+               sec:authentication="name"></a>
             <a th:href="@{/auth/logout}" class="btn-nav" sec:authorize="isAuthenticated()">로그아웃</a>
             <a th:href="@{/auth/login}" class="btn-nav" sec:authorize="!isAuthenticated()">로그인</a>
             <a th:href="@{/auth/register}" class="btn-nav btn-register" sec:authorize="!isAuthenticated()">회원가입</a>
