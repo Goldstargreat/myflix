@@ -58,15 +58,14 @@
                 </div>
                 <button type="submit" class="btn-primary"
                         th:text="${myReview != null} ? '수정하기' : '작성하기'">작성하기</button>
+            </form>
 
-                <!-- 삭제 버튼 (리뷰가 있는 경우만) -->
-                <span th:if="${myReview != null}">
-                    <form th:action="@{/review/delete/{id}(id=${myReview.id})}" method="post" style="display:inline;">
-                        <input type="hidden" name="movieId" th:value="${movie.id}">
-                        <button type="submit" class="btn-delete"
-                                onclick="return confirm('리뷰를 삭제하시겠습니까?')">삭제</button>
-                    </form>
-                </span>
+            <!-- 삭제 버튼 (리뷰가 있는 경우만, 수정 form 밖에 위치) -->
+            <form th:if="${myReview != null}"
+                  th:action="@{/review/delete/{id}(id=${myReview.id})}" method="post" style="display:inline;">
+                <input type="hidden" name="movieId" th:value="${movie.id}">
+                <button type="submit" class="btn-delete"
+                        onclick="return confirm('리뷰를 삭제하시겠습니까?')">삭제</button>
             </form>
         </div>
 
