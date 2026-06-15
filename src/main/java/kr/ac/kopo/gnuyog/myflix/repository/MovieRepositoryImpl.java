@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class MovieRepositoryImpl implements MovieRepository {
-
+public class MovieRepositoryImpl implements MovieRepository
+{
     private List<Movie> movies = new ArrayList<>();
     private Long nextId = 31L;
 
