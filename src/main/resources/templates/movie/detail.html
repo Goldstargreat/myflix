@@ -23,6 +23,11 @@
         <div class="detail-actions">
             <a th:href="@{/movies}" class="btn-secondary">← 목록으로</a>
 
+            <!-- 재생 버튼 (로그인한 경우만) -->
+            <button th:if="${loggedIn}" class="btn-play" onclick="openPlayModal()" type="button">
+                ▶ 재생
+            </button>
+
             <!-- 찜하기 버튼 (로그인한 경우만) -->
             <form th:if="${loggedIn}" th:action="@{/wish/toggle/{id}(id=${movie.id})}" method="post" style="display:inline;">
                 <button type="submit" class="btn-wish"
@@ -119,6 +124,62 @@
 <footer class="footer">
     <p>© 2026 MyFlix. 한국폴리텍 인공지능소프트웨어</p>
 </footer>
+
+<!-- 재생 모달 -->
+<div id="playModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85);
+     z-index:9999; display:none; align-items:center; justify-content:center;">
+    <div style="background:#1a1a1a; border-radius:12px; padding:2.5rem 3rem;
+                text-align:center; max-width:420px; width:90%; position:relative;
+                border:1px solid #333; animation: fadeInScale 0.2s ease;">
+        <div style="font-size:3rem; margin-bottom:1rem;">🎬</div>
+        <h2 style="color:#fff; margin-bottom:0.5rem;" th:text="${movie.title}">제목</h2>
+        <p style="color:#aaa; font-size:0.95rem; margin-bottom:1.8rem; line-height:1.6;">
+            영상 서비스는 준비 중입니다.<br>DB 연동 후 이용하실 수 있습니다.
+        </p>
+        <button onclick="closePlayModal()" class="btn-primary"
+                style="padding:10px 28px; font-size:0.95rem;">확인</button>
+        <button onclick="closePlayModal()"
+                style="position:absolute; top:12px; right:16px; background:none;
+                       border:none; color:#888; font-size:1.4rem; cursor:pointer;">✕</button>
+    </div>
+</div>
+
+<style>
+    .btn-play {
+        background: #e50914;
+        color: #fff;
+        border: none;
+        padding: 12px 28px;
+        font-size: 1rem;
+        font-weight: 700;
+        border-radius: 4px;
+        cursor: pointer;
+        letter-spacing: 0.03em;
+        transition: background 0.2s, transform 0.1s;
+    }
+    .btn-play:hover { background: #f40612; }
+    .btn-play:active { transform: scale(0.96); }
+
+    @keyframes fadeInScale {
+        from { opacity: 0; transform: scale(0.92); }
+        to   { opacity: 1; transform: scale(1); }
+    }
+</style>
+
+<script>
+    function openPlayModal() {
+        const modal = document.getElementById('playModal');
+        modal.style.display = 'flex';
+    }
+    function closePlayModal() {
+        const modal = document.getElementById('playModal');
+        modal.style.display = 'none';
+    }
+    // 모달 바깥 클릭 시 닫기
+    document.getElementById('playModal').addEventListener('click', function(e) {
+        if (e.target === this) closePlayModal();
+    });
+</script>
 
 <script>
     // 글자수 카운터
