@@ -7,41 +7,162 @@
 <nav th:replace="~{fragments/layout :: navbar}"></nav>
 
 <div class="page-container">
+
+    <!-- 헤더 -->
     <div class="page-header" style="display:flex; justify-content:space-between; align-items:center;">
-        <h1 class="page-title">관리자 페이지</h1>
+        <h1 class="page-title">🛠 관리자 페이지</h1>
         <a th:href="@{/admin/movie/add}" class="btn-primary">+ 콘텐츠 추가</a>
     </div>
-    <table class="admin-table">
-        <thead>
-        <tr>
-            <th>ID</th><th>제목</th><th>카테고리</th><th>년도</th><th>평점</th><th>관리</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="movie : ${movies}">
-            <td th:text="${movie.id}"></td>
-            <td th:text="${movie.title}"></td>
-            <td><span class="genre-badge" th:text="${movie.genre}"></span></td>
-            <td th:text="${movie.releaseYear}"></td>
-            <td>★ <span th:text="${movie.rating}"></span></td>
-            <td style="display:flex; gap:0.5rem;">
-                <!-- 수정 버튼 -->
-                <a th:href="@{/admin/movie/edit/{id}(id=${movie.id})}" class="btn-primary"
-                   style="padding:6px 12px; font-size:0.85rem;">수정</a>
-                <!-- 삭제 버튼 -->
-                <form th:action="@{/admin/movie/delete/{id}(id=${movie.id})}" method="post"
-                      onsubmit="return confirm('삭제하시겠습니까?')">
-                    <button type="submit" class="btn-delete">삭제</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+
+    <!-- 요약 카드 -->
+    <div style="display:flex; gap:1rem; margin-bottom:2rem; flex-wrap:wrap;">
+        <div style="background:#1a1a1a; border-radius:8px; padding:1.2rem 2rem; flex:1; min-width:140px; text-align:center;">
+            <div style="font-size:2rem; font-weight:700; color:#e50914;" th:text="${#lists.size(movies)}">0</div>
+            <div style="color:#888; font-size:0.85rem; margin-top:4px;">콘텐츠</div>
+        </div>
+        <div style="background:#1a1a1a; border-radius:8px; padding:1.2rem 2rem; flex:1; min-width:140px; text-align:center;">
+            <div style="font-size:2rem; font-weight:700; color:#e50914;" th:text="${#lists.size(users)}">0</div>
+            <div style="color:#888; font-size:0.85rem; margin-top:4px;">회원</div>
+        </div>
+        <div style="background:#1a1a1a; border-radius:8px; padding:1.2rem 2rem; flex:1; min-width:140px; text-align:center;">
+            <div style="font-size:2rem; font-weight:700; color:#e50914;" th:text="${#lists.size(reviews)}">0</div>
+            <div style="color:#888; font-size:0.85rem; margin-top:4px;">리뷰</div>
+        </div>
+    </div>
+
+    <!-- 탭 버튼 -->
+    <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem; border-bottom:1px solid #333; padding-bottom:0;">
+        <a th:href="@{/admin(tab='movies')}"
+           th:classappend="${tab == 'movies'} ? ' admin-tab-active'"
+           class="admin-tab">📽 콘텐츠</a>
+        <a th:href="@{/admin(tab='users')}"
+           th:classappend="${tab == 'users'} ? ' admin-tab-active'"
+           class="admin-tab">👥 회원</a>
+        <a th:href="@{/admin(tab='reviews')}"
+           th:classappend="${tab == 'reviews'} ? ' admin-tab-active'"
+           class="admin-tab">💬 리뷰</a>
+    </div>
+
+    <!-- ── 콘텐츠 탭 ── -->
+    <div th:if="${tab == 'movies'}">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>ID</th><th>제목</th><th>카테고리</th><th>년도</th><th>평점</th><th>관리</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="movie : ${movies}">
+                <td th:text="${movie.id}"></td>
+                <td th:text="${movie.title}"></td>
+                <td><span class="genre-badge" th:text="${movie.genre}"></span></td>
+                <td th:text="${movie.releaseYear}"></td>
+                <td>★ <span th:text="${movie.rating}"></span></td>
+                <td style="display:flex; gap:0.5rem;">
+                    <a th:href="@{/admin/movie/edit/{id}(id=${movie.id})}"
+                       class="btn-primary" style="padding:6px 12px; font-size:0.85rem;">수정</a>
+                    <form th:action="@{/admin/movie/delete/{id}(id=${movie.id})}" method="post"
+                          onsubmit="return confirm('삭제하시겠습니까?')">
+                        <button type="submit" class="btn-delete">삭제</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:if="${#lists.isEmpty(movies)}" class="empty-state">
+            <p>등록된 콘텐츠가 없습니다.</p>
+        </div>
+    </div>
+
+    <!-- ── 회원 탭 ── -->
+    <div th:if="${tab == 'users'}">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>ID</th><th>아이디</th><th>권한</th><th>관리</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${users}">
+                <td th:text="${u.id}"></td>
+                <td th:text="${u.username}"></td>
+                <td>
+                    <span th:if="${u.role == 'ROLE_ADMIN'}"
+                          style="color:#e50914; font-weight:700;">관리자</span>
+                    <span th:if="${u.role != 'ROLE_ADMIN'}"
+                          style="color:#888;">일반회원</span>
+                </td>
+                <td>
+                    <!-- 자기 자신(admin) 삭제 방지 -->
+                    <form th:if="${u.role != 'ROLE_ADMIN'}"
+                          th:action="@{/admin/user/delete/{id}(id=${u.id})}" method="post"
+                          onsubmit="return confirm(u.username + ' 회원을 탈퇴시키겠습니까?')">
+                        <button type="submit" class="btn-delete">강제 탈퇴</button>
+                    </form>
+                    <span th:if="${u.role == 'ROLE_ADMIN'}" style="color:#555; font-size:0.8rem;">삭제 불가</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:if="${#lists.isEmpty(users)}" class="empty-state">
+            <p>등록된 회원이 없습니다.</p>
+        </div>
+    </div>
+
+    <!-- ── 리뷰 탭 ── -->
+    <div th:if="${tab == 'reviews'}">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>ID</th><th>작성자</th><th>영화 ID</th><th>별점</th><th>내용</th><th>관리</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="review : ${reviews}">
+                <td th:text="${review.id}"></td>
+                <td th:text="${review.username}"></td>
+                <td>
+                    <a th:href="@{/movies/{id}(id=${review.movieId})}"
+                       style="color:#e50914;" th:text="'#' + ${review.movieId}"></a>
+                </td>
+                <td>⭐ <span th:text="${review.myRating}"></span></td>
+                <td style="max-width:300px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"
+                    th:text="${review.comment}"></td>
+                <td>
+                    <form th:action="@{/admin/review/delete/{id}(id=${review.id})}" method="post"
+                          onsubmit="return confirm('이 리뷰를 삭제하시겠습니까?')">
+                        <button type="submit" class="btn-delete">삭제</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:if="${#lists.isEmpty(reviews)}" class="empty-state">
+            <p>작성된 리뷰가 없습니다.</p>
+        </div>
+    </div>
+
 </div>
 
 <footer class="footer">
     <p>© 2026 MyFlix. 한국폴리텍 인공지능소프트웨어</p>
 </footer>
+
+<!-- 탭 스타일 (인라인으로 추가) -->
+<style>
+    .admin-tab {
+        padding: 8px 20px;
+        color: #888;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+        display: inline-block;
+        margin-bottom: -1px;
+    }
+    .admin-tab:hover { color: #fff; }
+    .admin-tab-active { color: #fff !important; border-bottom-color: #e50914; }
+</style>
 
 </body>
 </html>

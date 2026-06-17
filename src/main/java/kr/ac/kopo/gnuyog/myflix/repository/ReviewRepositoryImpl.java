@@ -18,9 +18,7 @@ public class ReviewRepositoryImpl implements ReviewRepository
     {
         List<Review> result = new ArrayList<>();
         for (Review r : reviews)
-        {
             if (r.getMovieId().equals(movieId)) result.add(r);
-        }
         return result;
     }
 
@@ -29,9 +27,7 @@ public class ReviewRepositoryImpl implements ReviewRepository
     {
         List<Review> result = new ArrayList<>();
         for (Review r : reviews)
-        {
             if (r.getUsername().equals(username)) result.add(r);
-        }
         return result;
     }
 
@@ -39,30 +35,20 @@ public class ReviewRepositoryImpl implements ReviewRepository
     public Optional<Review> findByMovieIdAndUsername(Long movieId, String username)
     {
         for (Review r : reviews)
-        {
             if (r.getMovieId().equals(movieId) && r.getUsername().equals(username))
-            {
                 return Optional.of(r);
-            }
-        }
         return Optional.empty();
     }
 
     @Override
     public Review save(Review review)
     {
-        if (review.getId() == null)
-        {
-            // 새 리뷰
+        if (review.getId() == null) {
             review.setId(nextId++);
             reviews.add(review);
-        } else
-        {
-            // 수정
-            for (int i = 0; i < reviews.size(); i++)
-            {
-                if (reviews.get(i).getId().equals(review.getId()))
-                {
+        } else {
+            for (int i = 0; i < reviews.size(); i++) {
+                if (reviews.get(i).getId().equals(review.getId())) {
                     reviews.set(i, review);
                     break;
                 }
@@ -75,5 +61,13 @@ public class ReviewRepositoryImpl implements ReviewRepository
     public void deleteById(Long id)
     {
         reviews.removeIf(r -> r.getId().equals(id));
+    }
+
+    // ── 관리자용 ───────────────────────────────────────
+
+    @Override
+    public List<Review> findAll()
+    {
+        return new ArrayList<>(reviews);
     }
 }
