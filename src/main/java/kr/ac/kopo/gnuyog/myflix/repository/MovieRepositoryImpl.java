@@ -48,7 +48,7 @@ public class MovieRepositoryImpl implements MovieRepository
                 { 34L, "왕좌의 게임",            "드라마", "왕좌를 둘러싼 귀족 가문들의 권력 다툼과 판타지 세계를 그린 HBO 대서사 드라마.",                        "https://image.tmdb.org/t/p/w500/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg", 2011 },
                 { 35L, "오징어 게임",            "드라마", "456억 원을 걸고 목숨을 건 서바이벌 게임에 참가한 사람들의 이야기. 넷플릭스 역대 1위.",               "https://image.tmdb.org/t/p/w500/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg", 2021 },
                 { 36L, "체르노빌",               "드라마", "1986년 체르노빌 원전 폭발 사고의 진실을 파헤치는 HBO 미니시리즈.",                                      "https://image.tmdb.org/t/p/w500/hlLXt2tOPT6RRnjiUmoxyG1LTFi.jpg", 2019 },
-                { 37L, "밴드 오브 브라더스",     "드라마", "2차 세계대전 노르망디 상륙작전부터 종전까지, E중대 낙하산 부대원들의 실화를 담은 HBO 10부작 전쟁 드라마.", "https://image.tmdb.org/t/p/w500/bqeqEWEP02x3WiQxBo8TKMETkrd.jpg", 2001 },
+                { 37L, "밴드 오브 브라더스",     "드라마", "2차 세계대전 노르망디 상륙작전부터 종전까지, E중대 낙하산 부대원들의 실화를 담은 HBO 10부작 전쟁 드라마.", "https://image.tmdb.org/t/p/w500/acAoCCasY6ei0hTXbC9Yc8DCYfT.jpg", 2001 },
 
                 // ─── 애니메이션 ─────────────────────────────────────────
                 {  8L, "겨울왕국",               "애니메이션", "얼음 마법을 가진 엘사와 동생 안나의 자매 사랑을 그린 디즈니 애니메이션.",                               "https://image.tmdb.org/t/p/w500/iG1pHfJzNHeIFcHMaL5Os1K8Oq2.jpg", 2013 },
