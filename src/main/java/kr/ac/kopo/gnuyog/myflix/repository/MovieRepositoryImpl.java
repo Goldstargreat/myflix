@@ -42,7 +42,7 @@ public class MovieRepositoryImpl implements MovieRepository
                 { 17L, "1917",                   "영화", "1차 세계대전, 단 두 명의 병사가 수천 명을 구하기 위해 적진을 가로질러 달리는 원테이크 전쟁 영화.",    "https://image.tmdb.org/t/p/w500/iZf0KyrE25z1sage4SYFLCCrMi9.jpg", 2019 },
 
                 // ─── 드라마 ─────────────────────────────────────────────
-                { 31L, "스파르타쿠스",           "드라마", "검투사 스파르타쿠스가 로마의 노예 제도에 맞서 대반란을 이끄는 역사 액션 드라마.",                       "https://image.tmdb.org/t/p/w500/kJJSQTaTWy0rvzFgjHKJEMB4gIb.jpg", 2010 },
+                { 31L, "스파르타쿠스",           "드라마", "검투사 스파르타쿠스가 로마의 노예 제도에 맞서 대반란을 이끄는 역사 액션 드라마.",                       "https://image.tmdb.org/t/p/w500/j3P623BuGb0hPwvuU4gguPy3uJ6.jpg", 2010 },
                 { 32L, "셜록",                   "드라마", "현대 런던을 배경으로 한 셜록 홈즈의 재해석. BBC의 베네딕트 컴버배치 주연 명작.",                        "https://image.tmdb.org/t/p/w500/7WTsnHkbA0FaG6R9twfFde0I9hl.jpg", 2010 },
                 { 33L, "브레이킹 배드",          "드라마", "암 선고를 받은 화학 교사가 마약 제조왕으로 변해가는 AMC의 전설적인 드라마.",                          "https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacjizRGt.jpg", 2008 },
                 { 34L, "왕좌의 게임",            "드라마", "왕좌를 둘러싼 귀족 가문들의 권력 다툼과 판타지 세계를 그린 HBO 대서사 드라마.",                        "https://image.tmdb.org/t/p/w500/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg", 2011 },
