@@ -17,7 +17,7 @@ public class MovieRepositoryImpl implements MovieRepository
     private TmdbService tmdbService;
 
     private List<Movie> movies = new ArrayList<>();
-    private Long nextId = 38L;
+    private Long nextId = 39L;
 
     @PostConstruct
     public void init()
@@ -30,7 +30,7 @@ public class MovieRepositoryImpl implements MovieRepository
                 {  4L, "조커",                   "영화", "아서 플렉이 조커가 되어가는 과정을 그린 심리 스릴러. 호아킨 피닉스의 열연.",                              "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg", 2019 },
                 {  5L, "듄",                     "영화", "모래 행성 아라키스를 배경으로 한 폴 아트레이데스의 운명을 그린 SF 서사시.",                               "https://image.tmdb.org/t/p/w500/d5NXSklpcvweCLoy3Hpz0K3c4p9.jpg", 2021 },
                 {  6L, "탑건: 매버릭",           "영화", "30년 만에 돌아온 매버릭의 전설. 톰 크루즈의 실제 전투기 비행 장면이 압권.",                              "https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg", 2022 },
-                {  7L, "아버지의 깃발",          "영화", "이오지마 전투에서 성조기를 꽂은 병사들의 이야기를 미국 시각에서 그린 클린트 이스트우드의 전쟁 영화.",  "https://image.tmdb.org/t/p/w500/bDFMFMKFUMJtSHHNMYlBBNFDQoA.jpg", 2006 },
+                {  7L, "아버지의 깃발",          "영화", "이오지마 전투에서 성조기를 꽂은 병사들의 이야기를 미국 시각에서 그린 클린트 이스트우드의 전쟁 영화.",  "https://image.tmdb.org/t/p/w500/lkU6D9hU0Xbk6V0lArRdkjLG1X1.jpg", 2006 },
                 {  9L, "오펜하이머",             "영화", "원자폭탄의 아버지 오펜하이머의 삶과 그 무게를 담은 크리스토퍼 놀란의 역작.",                            "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg", 2023 },
                 { 10L, "스파이더맨: 노 웨이 홈", "영화", "멀티버스가 열리며 역대 스파이더맨들이 한자리에 모이는 마블의 역작.",                                     "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg", 2021 },
                 { 11L, "다크 나이트",            "영화", "배트맨과 조커의 숨막히는 대결. 히어로 영화의 새 기준을 세운 크리스토퍼 놀란의 걸작.",                    "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg", 2008 },
@@ -49,6 +49,7 @@ public class MovieRepositoryImpl implements MovieRepository
                 { 35L, "오징어 게임",            "드라마", "456억 원을 걸고 목숨을 건 서바이벌 게임에 참가한 사람들의 이야기. 넷플릭스 역대 1위.",               "https://image.tmdb.org/t/p/w500/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg", 2021 },
                 { 36L, "체르노빌",               "드라마", "1986년 체르노빌 원전 폭발 사고의 진실을 파헤치는 HBO 미니시리즈.",                                      "https://image.tmdb.org/t/p/w500/hlLXt2tOPT6RRnjiUmoxyG1LTFi.jpg", 2019 },
                 { 37L, "밴드 오브 브라더스",     "드라마", "2차 세계대전 노르망디 상륙작전부터 종전까지, E중대 낙하산 부대원들의 실화를 담은 HBO 10부작 전쟁 드라마.", "https://image.tmdb.org/t/p/w500/acAoCCasY6ei0hTXbC9Yc8DCYfT.jpg", 2001 },
+                { 38L, "더 퍼시픽",              "드라마", "2차 세계대전 태평양 전선, 세 명의 미 해병대원의 실화를 따라가는 HBO 10부작 전쟁 드라마.",               "https://image.tmdb.org/t/p/w500/9wCmbShOvXWUlaF80ck5g1yyTgB.jpg", 2010 },
 
                 // ─── 애니메이션 ─────────────────────────────────────────
                 {  8L, "겨울왕국",               "애니메이션", "얼음 마법을 가진 엘사와 동생 안나의 자매 사랑을 그린 디즈니 애니메이션.",                               "https://image.tmdb.org/t/p/w500/iG1pHfJzNHeIFcHMaL5Os1K8Oq2.jpg", 2013 },
